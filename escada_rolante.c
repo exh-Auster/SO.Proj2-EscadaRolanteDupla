@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 
 typedef struct {
@@ -10,7 +11,7 @@ void readData(char* filePath, rider* riders, int* n) {
     FILE* file = fopen(filePath, "r");
     if (file == NULL) {
         printf("Erro ao abrir o arquivo %s.\n", filePath);
-        return;
+        exit(1);
     }
     
     fscanf(file, "%d", n);
@@ -27,7 +28,7 @@ int escalator(rider* riders, int n) {
     int auxIndex = 0;
 
     int estArrival;
-    
+
     rider pendingRiders[10000];
     int remainingRiders = n;
 
@@ -38,8 +39,6 @@ int escalator(rider* riders, int n) {
     bool pending = false;
 
     while (remainingRiders > 0) {
-        printf("DEBUG:\n mainIndex: %d\n auxIndex: %d\n riders[mainIndex].t: %d\n estArrival: %d\n remainingRiders: %d\n pending: %d\n direction: %d\n moment: %d\n\n", mainIndex, auxIndex, riders[mainIndex].t, estArrival, remainingRiders, pending, direction, moment);
-        //if (pending && (pendingRiders[0].d == direction || direction == -1)) {
         if (pending && (riders[mainIndex].t > estArrival || mainIndex >= n)) {
             currentRider = pendingRiders[0];
             moment += 10;
@@ -49,7 +48,6 @@ int escalator(rider* riders, int n) {
             pending = false;
         } else {
             currentRider = riders[mainIndex];
-            //moment = currentRider.t > moment ? currentRider.t : moment;
 
             if (direction == -1) {
                 moment = currentRider.t < moment ? moment : currentRider.t;
@@ -80,6 +78,7 @@ int escalator(rider* riders, int n) {
 
     moment += 10;
     lastMoment = moment;
+
     return lastMoment;
 }
 
