@@ -27,7 +27,7 @@ int escalator(rider* riders, int n) {
     int auxIndex = 0;
 
     int estArrival;
-
+    
     rider pendingRiders[10000];
     int remainingRiders = n;
 
