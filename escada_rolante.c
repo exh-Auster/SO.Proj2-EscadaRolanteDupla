@@ -34,13 +34,13 @@ int escalator(rider* riders, int n) {
     int lastMoment = 0;
     int direction = -1;
     int moment = 0;
-        
+
     bool pending = false;
 
     while (remainingRiders > 0) {
         printf("DEBUG:\n mainIndex: %d\n auxIndex: %d\n riders[mainIndex].t: %d\n estArrival: %d\n remainingRiders: %d\n pending: %d\n direction: %d\n moment: %d\n\n", mainIndex, auxIndex, riders[mainIndex].t, estArrival, remainingRiders, pending, direction, moment);
         //if (pending && (pendingRiders[0].d == direction || direction == -1)) {
-        if (pending && (riders[mainIndex].t > estArrival || remainingRiders == 1)) {
+        if (pending && (riders[mainIndex].t > estArrival || mainIndex >= n)) {
             currentRider = pendingRiders[0];
             moment += 10;
             direction = currentRider.d;
@@ -52,7 +52,7 @@ int escalator(rider* riders, int n) {
             //moment = currentRider.t > moment ? currentRider.t : moment;
 
             if (direction == -1) {
-                moment = currentRider.t;
+                moment = currentRider.t < moment ? moment : currentRider.t;
                 direction = currentRider.d;
                 estArrival = currentRider.t + 10;
 
@@ -65,10 +65,12 @@ int escalator(rider* riders, int n) {
                 mainIndex++;
                 remainingRiders--;
             } else {
-                if (riders[mainIndex + 1].t == 0 || riders[mainIndex + 1].t > estArrival) {
+                if (riders[mainIndex + 1].t - riders[mainIndex].t > riders[mainIndex - 1].t) {
+                    moment = estArrival;
                     direction = -1;
-                } else {
-                    pendingRiders[0] = riders[mainIndex];
+                }
+                else if (riders[mainIndex + 1].t <= estArrival) {
+                    pendingRiders[0] = riders[mainIndex]; 
                     pending = true;
                     mainIndex++;
                 }
