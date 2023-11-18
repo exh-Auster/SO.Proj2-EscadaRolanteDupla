@@ -1,3 +1,10 @@
+/*
+MEMBROS:
+André Matteucci - 32273541
+Enzo Koji       - 32273754
+Felipe Ribeiro  - 32212720
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
